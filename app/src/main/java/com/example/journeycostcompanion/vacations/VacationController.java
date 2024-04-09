@@ -26,4 +26,5 @@ public class VacationController extends Vacation {
     public static void removeVacation(Vacation vacation) {
         vacations.remove(vacation);
     }
+
 }

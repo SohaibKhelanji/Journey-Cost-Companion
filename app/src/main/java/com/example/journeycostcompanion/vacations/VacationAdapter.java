@@ -8,14 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.journeycostcompanion.R;
-import com.example.journeycostcompanion.vacations.Vacation;
+
 
 import java.util.ArrayList;
 
 public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.VacationViewHolder> {
 
     private ArrayList<Vacation> vacations;
+
 
     public VacationAdapter(ArrayList<Vacation> vacations) {
         this.vacations = vacations;
@@ -32,8 +34,8 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationAdapter.Vacati
     public void onBindViewHolder(@NonNull VacationViewHolder holder, int position) {
         Vacation vacation = vacations.get(position);
         holder.destinationTextView.setText(vacation.getDestination());
-        holder.startDateTextView.setText(vacation.getStartDate());
-        holder.endDateTextView.setText(vacation.getEndDate());
+        holder.startDateTextView.setText("\uD83D\uDEEB " + vacation.getStartDate());
+        holder.endDateTextView.setText("\uD83D\uDEEC " + vacation.getEndDate());
     }
 
     @Override
