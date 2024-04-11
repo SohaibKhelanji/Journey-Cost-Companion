@@ -59,13 +59,12 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
                     //TODO: Implement the edit functionality
                 })
                 .setNegativeButton("Delete\uD83D\uDDD1️", (dialog, which) -> {
-                    // Call the confirmation dialog method
                     showDeleteConfirmationDialog(v, vacation, position);
                 })
                 .setNeutralButton("Cancel", null)
                 .show();
 
-        return true; // Return true to indicate the event is consumed
+        return true; // Needs to return true to indicate the event is consumed (done)
     }
 
     private void showDeleteConfirmationDialog(View v, Vacation vacation, int position) {
