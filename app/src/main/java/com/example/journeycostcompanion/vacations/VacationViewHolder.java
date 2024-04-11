@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.journeycostcompanion.R;
 
 public class VacationViewHolder extends RecyclerView.ViewHolder {
-    TextView destinationTextView;
-    TextView startDateTextView;
-    TextView endDateTextView;
+    public TextView destinationTextView;
+    public TextView startDateTextView;
+    public TextView endDateTextView;
 
     public VacationViewHolder(@NonNull View itemView) {
         super(itemView);
