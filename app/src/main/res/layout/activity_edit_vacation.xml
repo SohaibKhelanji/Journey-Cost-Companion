@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="124dp"
-        android:text="Add Vacation 🗺️"
+        android:text="Edit Vacation 🛠️"
         android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,8 +82,8 @@
         android:id="@+id/editVacationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Vacation"
+        android:text="Edit Vacation"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

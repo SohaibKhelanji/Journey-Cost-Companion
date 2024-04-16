@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.journeycostcompanion.vacations.VacationController;
 import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class AddVacationActivity extends AppCompatActivity {
@@ -18,7 +19,7 @@ public class AddVacationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_vacation);
 
         Button cancelButton = findViewById(R.id.cancelButton);
-        Button addVacationButton = findViewById(R.id.addVacationButton);
+        Button addVacationButton = findViewById(R.id.editVacationButton);
 
         addVacationButton.setOnClickListener(this::addVacation);
         cancelButton.setOnClickListener(v -> finish());
@@ -43,13 +44,31 @@ public class AddVacationActivity extends AppCompatActivity {
         String startDate = Objects.requireNonNull(startDateTextInputLayout.getEditText()).getText().toString();
         String endDate = Objects.requireNonNull(endDateTextInputLayout.getEditText()).getText().toString();
 
-        Log.d("AddVacationActivity", "Destination: " + destination);
-        Log.d("AddVacationActivity", "Start Date: " + startDate);
-        Log.d("AddVacationActivity", "End Date: " + endDate);
+        List<Integer> validationCodes = isValidInput(destination, startDate, endDate);
 
-        VacationController.createVacation(destination, startDate, endDate);
+        for (int validationCode : validationCodes) {
+            switch (validationCode) {
+                case 1:
+                    destinationTextInputLayout.setError("Invalid destination");
+                    break;
+                case 2:
+                    startDateTextInputLayout.setError("Invalid date or format. (Required format: dd/mm/yyyy)");
+                    break;
+                case 3:
+                    endDateTextInputLayout.setError("Invalid date or format. (Required format: dd/mm/yyyy)");
+                    break;
+            }
+        }
 
-        finish();
+        if (validationCodes.isEmpty()) {
+            Log.d("AddVacationActivity", "Destination: " + destination);
+            Log.d("AddVacationActivity", "Start Date: " + startDate);
+            Log.d("AddVacationActivity", "End Date: " + endDate);
+
+            VacationController.createVacation(destination, startDate, endDate);
+
+            finish();
+        }
     }
 
     private boolean validateFields(ArrayList<TextInputLayout> textInputLayouts) {
@@ -65,5 +84,25 @@ public class AddVacationActivity extends AppCompatActivity {
         return isValid;
     }
 
+    private List<Integer> isValidInput(String destination, String startDate, String endDate) {
+        List<Integer> validationCodes = new ArrayList<>();
 
+        // Check if destination is not empty
+        if (destination.isEmpty()) {
+            validationCodes.add(1);
+        }
+        // Regular expression for date format dd/mm/yyyy
+        String datePattern = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/((19|20)\\d\\d)$";
+
+        // Check if startDate and endDate match the date pattern
+        if (!startDate.matches(datePattern)) {
+            validationCodes.add(2);
+        }
+
+        if (!endDate.matches(datePattern)) {
+            validationCodes.add(3);
+        }
+
+        return validationCodes;
+    }
 }

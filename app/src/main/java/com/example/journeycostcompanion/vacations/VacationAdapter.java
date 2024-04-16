@@ -1,6 +1,7 @@
 package com.example.journeycostcompanion.vacations;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.journeycostcompanion.EditVacationActivity;
 import com.example.journeycostcompanion.R;
 
 import java.util.ArrayList;
+
 
 public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
 
@@ -36,7 +39,7 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
         holder.endDateTextView.setText("\uD83D\uDEEC " + vacation.getEndDate());
 
         holder.itemView.setOnClickListener(v -> openVacation(v, vacation));
-        holder.itemView.setOnLongClickListener(v ->showActionDialog(v, vacation, position));
+        holder.itemView.setOnLongClickListener(v ->showActionDialog(v, vacation));
     }
 
     @Override
@@ -51,32 +54,38 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
         Toast.makeText(v.getContext(), "Destination: " + vacation.getDestination(), Toast.LENGTH_SHORT).show();
     }
 
-    private boolean showActionDialog(View v, Vacation vacation, int position) {
+    private boolean showActionDialog(View v, Vacation vacation) {
         new AlertDialog.Builder(v.getContext())
                 .setTitle("Choose an action for " + vacation.getDestination())
                 .setMessage("Would you like to edit or delete this vacation?")
-                .setPositiveButton("Edit\uD83D\uDEE0️ ", (dialog, which) -> {
-                    //TODO: Implement the edit functionality
-                })
-                .setNegativeButton("Delete\uD83D\uDDD1️", (dialog, which) -> {
-                    showDeleteConfirmationDialog(v, vacation, position);
-                })
+                .setPositiveButton("Edit\uD83D\uDEE0️ ", (dialog, which) -> editVacation(v, vacation))
+                .setNegativeButton("Delete\uD83D\uDDD1️", (dialog, which) -> showDeleteConfirmationDialog(v, vacation))
                 .setNeutralButton("Cancel", null)
                 .show();
 
         return true; // Needs to return true to indicate the event is consumed (done)
     }
 
-    private void showDeleteConfirmationDialog(View v, Vacation vacation, int position) {
+    private void showDeleteConfirmationDialog(View v, Vacation vacation) {
         new AlertDialog.Builder(v.getContext())
                 .setTitle("Confirm deletion of " + vacation.getDestination() + "  |\uD83D\uDDD1️")
                 .setMessage("Are you sure you want to delete this vacation? \n\nTHIS ACTION CANNOT BE UNDONE!")
-                .setPositiveButton("Yes", (dialog1, which1) -> {
-                    vacations.remove(position);
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    int position = vacations.indexOf(vacation);
+                    VacationController.removeVacation(vacation);
                     notifyItemRemoved(position);
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    public void editVacation(View v, Vacation vacation) {
+        Intent intent = new Intent(v.getContext(), EditVacationActivity.class);
+        intent.putExtra("id", vacation.getId().toString());
+        intent.putExtra("destination", vacation.getDestination());
+        intent.putExtra("startDate", vacation.getStartDate());
+        intent.putExtra("endDate", vacation.getEndDate());
+        v.getContext().startActivity(intent);
     }
 
     private void animateView(View v) {
@@ -92,4 +101,3 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
                 .start();
     }
 }
-

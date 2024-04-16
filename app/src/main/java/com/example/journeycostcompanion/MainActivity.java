@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         vacationRecyclerView = findViewById(R.id.vacationRecyclerView);
-        FloatingActionButton addVacationButton = findViewById(R.id.addVacationButton);
+        FloatingActionButton addVacationButton = findViewById(R.id.editVacationButton);
 
         //Temporary data (will be replaced with user input)
         VacationController.createVacation("Paris \uD83C\uDDEB\uD83C\uDDF7", "01/06/2019", "01/07/2019");
