@@ -1,5 +1,6 @@
 package com.example.journeycostcompanion.vacations;
 
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -42,5 +43,4 @@ public class VacationController extends Vacation {
         }
         return null;
     }
-
 }

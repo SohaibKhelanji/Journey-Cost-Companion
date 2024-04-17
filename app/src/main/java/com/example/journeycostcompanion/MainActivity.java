@@ -31,6 +31,25 @@ public class MainActivity extends AppCompatActivity {
         VacationController.createVacation("London \uD83C\uDDEC\uD83C\uDDE7", "01/07/2022", "10/07/2022");
         VacationController.createVacation("New York \uD83C\uDDFA\uD83C\uDDF8", "01/08/2024", "10/08/2024");
 
+        //add seperate  random expenses for each vacation
+        VacationController.getVacations().get(0).addExpense("Hotel", "Accommodation", 1000);
+        VacationController.getVacations().get(0).addExpense("Flight", "Transport", 500);
+        VacationController.getVacations().get(0).addExpense("Food", "Food", 300);
+        VacationController.getVacations().get(0).addExpense("Museum", "Entertainment", 50);
+        VacationController.getVacations().get(0).addExpense("Souvenirs", "Shopping", 100);
+
+        VacationController.getVacations().get(1).addExpense("Hotel", "Accommodation", 1200);
+        VacationController.getVacations().get(1).addExpense("Flight", "Transport", 600);
+        VacationController.getVacations().get(1).addExpense("Food", "Food", 400);
+        VacationController.getVacations().get(1).addExpense("Museum", "Entertainment", 70);
+        VacationController.getVacations().get(1).addExpense("Souvenirs", "Shopping", 150);
+
+        VacationController.getVacations().get(2).addExpense("Hotel", "Accommodation", 1500);
+        VacationController.getVacations().get(2).addExpense("Flight", "Transport", 700);
+        VacationController.getVacations().get(2).addExpense("Food", "Food", 500);
+        VacationController.getVacations().get(2).addExpense("Museum", "Entertainment", 100);
+        VacationController.getVacations().get(2).addExpense("Souvenirs", "Shopping", 200);
+
         final int numberOfColumns = 2;
         vacationRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 

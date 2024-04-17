@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.journeycostcompanion.EditVacationActivity;
 import com.example.journeycostcompanion.R;
+import com.example.journeycostcompanion.VacationExpensesActivity;
 
 import java.util.ArrayList;
 
@@ -50,8 +50,9 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
     private void openVacation(View v, Vacation vacation) {
         animateView(v);
 
-        //TODO: Implement the open vacation functionality
-        Toast.makeText(v.getContext(), "Destination: " + vacation.getDestination(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(v.getContext(), VacationExpensesActivity.class);
+        intent.putExtra("id", vacation.getId().toString());
+        v.getContext().startActivity(intent);
     }
 
     private boolean showActionDialog(View v, Vacation vacation) {
