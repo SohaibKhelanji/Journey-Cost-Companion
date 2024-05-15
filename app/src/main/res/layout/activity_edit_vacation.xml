@@ -18,35 +18,35 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/destinationTextInputLayout"
+        android:id="@+id/nameTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Destination📍"
-        app:layout_constraintBottom_toTopOf="@id/startDateTextInputLayout"
+        app:layout_constraintBottom_toTopOf="@id/priceTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/destinationEditText"
+            android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/startDateTextInputLayout"
+        android:id="@+id/priceTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Start Date (dd/mm/yyyy)📅"
-        app:layout_constraintTop_toBottomOf="@id/destinationTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/nameTextInputLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/endDateTextInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/startDateEditText"
+            android:id="@+id/priceEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="End Date (dd/mm/yyyy)📅"
-        app:layout_constraintTop_toBottomOf="@id/startDateTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/priceTextInputLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/editVacationButton">

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "634419929117",
+    "project_id": "journey-cost-companion",
+    "storage_bucket": "journey-cost-companion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634419929117:android:53160e830857955c5ee6f4",
+        "android_client_info": {
+          "package_name": "com.example.journeycostcompanion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh3vJH_YINnyr5rqI17RNO2Mw3GDB0dzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

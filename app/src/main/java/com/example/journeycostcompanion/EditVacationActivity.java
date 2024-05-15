@@ -27,8 +27,8 @@ public class EditVacationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_vacation);
 
-        destinationTextInputLayout = findViewById(R.id.destinationTextInputLayout);
-        startDateTextInputLayout = findViewById(R.id.startDateTextInputLayout);
+        destinationTextInputLayout = findViewById(R.id.nameTextInputLayout);
+        startDateTextInputLayout = findViewById(R.id.priceTextInputLayout);
         endDateTextInputLayout = findViewById(R.id.endDateTextInputLayout);
 
         Bundle extras = getIntent().getExtras();

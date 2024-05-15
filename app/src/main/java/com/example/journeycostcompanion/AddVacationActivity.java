@@ -27,8 +27,8 @@ public class AddVacationActivity extends AppCompatActivity {
 
     public void addVacation(View view) {
         Log.d("AddVacationActivity", "Add Vacation Button Clicked");
-        TextInputLayout destinationTextInputLayout = findViewById(R.id.destinationTextInputLayout);
-        TextInputLayout startDateTextInputLayout = findViewById(R.id.startDateTextInputLayout);
+        TextInputLayout destinationTextInputLayout = findViewById(R.id.nameTextInputLayout);
+        TextInputLayout startDateTextInputLayout = findViewById(R.id.priceTextInputLayout);
         TextInputLayout endDateTextInputLayout = findViewById(R.id.endDateTextInputLayout);
 
         ArrayList<TextInputLayout> textInputLayouts = new ArrayList<>();
