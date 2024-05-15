@@ -13,15 +13,16 @@ import com.example.journeycostcompanion.EditVacationActivity;
 import com.example.journeycostcompanion.R;
 import com.example.journeycostcompanion.VacationExpensesActivity;
 
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 
 public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
 
     private ArrayList<Vacation> vacations;
 
-    public VacationAdapter(ArrayList<Vacation> vacations) {
-        this.vacations = vacations;
+    public VacationAdapter() {
+        this.vacations = VacationController.getVacations();
+        VacationController.fetchVacations(this);
     }
 
     @NonNull
@@ -51,7 +52,7 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
         animateView(v);
 
         Intent intent = new Intent(v.getContext(), VacationExpensesActivity.class);
-        intent.putExtra("id", vacation.getId().toString());
+        intent.putExtra("id", vacation.getId());
         v.getContext().startActivity(intent);
     }
 
@@ -82,7 +83,7 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
 
     public void editVacation(View v, Vacation vacation) {
         Intent intent = new Intent(v.getContext(), EditVacationActivity.class);
-        intent.putExtra("id", vacation.getId().toString());
+        intent.putExtra("id", vacation.getId());
         intent.putExtra("destination", vacation.getDestination());
         intent.putExtra("startDate", vacation.getStartDate());
         intent.putExtra("endDate", vacation.getEndDate());

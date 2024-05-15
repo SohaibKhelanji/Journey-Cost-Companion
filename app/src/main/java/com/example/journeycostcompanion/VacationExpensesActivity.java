@@ -12,15 +12,13 @@ import com.example.journeycostcompanion.expenses.Expense;
 import com.example.journeycostcompanion.expenses.ExpenseAdapter;
 import com.example.journeycostcompanion.vacations.Vacation;
 import com.example.journeycostcompanion.vacations.VacationController;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.List;
-import java.util.UUID;
+
 
 public class VacationExpensesActivity extends AppCompatActivity {
 
     private TextView totalCostTextView;
-    private FloatingActionButton addExpenseFAB;
+
 
     private String vacationId;
 
@@ -32,13 +30,12 @@ public class VacationExpensesActivity extends AppCompatActivity {
         RecyclerView expensesRecyclerView = findViewById(R.id.expensesRecyclerView);
         expensesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        addExpenseFAB =  findViewById(R.id.addExpenseFAB);
-        addExpenseFAB.setOnClickListener(v -> addExpense());
+        findViewById(R.id.addExpenseFAB).setOnClickListener(v -> addExpense());
 
         TextView vacationTitleTextView = findViewById(R.id.VacationTitleText);
         totalCostTextView = findViewById(R.id.totalCostText);
         vacationId = getIntent().getStringExtra("id");
-        Vacation vacation = VacationController.getVacationById(UUID.fromString(vacationId));
+        Vacation vacation = VacationController.getVacationById(vacationId);
         List<Expense> expenses = vacation.getExpenses();
 
         vacationTitleTextView.setText(vacation.getDestination());

@@ -1,6 +1,7 @@
 package com.example.journeycostcompanion;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,14 +14,15 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
+
 
 public class EditVacationActivity extends AppCompatActivity {
 
     private TextInputLayout destinationTextInputLayout;
     private TextInputLayout startDateTextInputLayout;
     private TextInputLayout endDateTextInputLayout;
-    private UUID vacationId;
+    private String vacationId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class EditVacationActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            vacationId = UUID.fromString(extras.getString("id"));
+            vacationId = extras.getString("id");
             String destination = extras.getString("destination");
             String startDate = extras.getString("startDate");
             String endDate = extras.getString("endDate");
@@ -73,9 +75,14 @@ public class EditVacationActivity extends AppCompatActivity {
 
         if (validationCodes.isEmpty()) {
             Vacation vacation = VacationController.getVacationById(vacationId);
+            Log.d("EditVacationActivity", "Vacation: " + vacation);
             if (vacation != null) {
                 VacationController.editVacation(vacation, newDestination, newStartDate, newEndDate);
             }
+            else {
+                destinationTextInputLayout.setError("Vacation not found");
+            }
+
             finish();
         }
     }
