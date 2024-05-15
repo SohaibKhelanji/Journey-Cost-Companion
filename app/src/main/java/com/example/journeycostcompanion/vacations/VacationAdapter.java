@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,11 +72,12 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
     private void showDeleteConfirmationDialog(View v, Vacation vacation) {
         new AlertDialog.Builder(v.getContext())
                 .setTitle("Confirm deletion of " + vacation.getDestination() + "  |\uD83D\uDDD1️")
-                .setMessage("Are you sure you want to delete this vacation? \n\nTHIS ACTION CANNOT BE UNDONE!")
+                .setMessage("Are you sure you want to delete this vacation & all corresponding expenses? \n\nTHIS ACTION CANNOT BE UNDONE!")
                 .setPositiveButton("Yes", (dialog, which) -> {
                     int position = vacations.indexOf(vacation);
                     VacationController.removeVacation(vacation);
                     notifyItemRemoved(position);
+                    Toast.makeText(v.getContext(), "Vacation deleted", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("No", null)
                 .show();

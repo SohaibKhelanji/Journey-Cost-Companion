@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -83,6 +84,7 @@ public class EditVacationActivity extends AppCompatActivity {
                 destinationTextInputLayout.setError("Vacation not found");
             }
 
+            Toast.makeText(this, "Vacation edited successfully", Toast.LENGTH_SHORT).show();
             finish();
         }
     }

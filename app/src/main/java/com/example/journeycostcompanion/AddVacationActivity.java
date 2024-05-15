@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.journeycostcompanion.vacations.VacationController;
 import com.google.android.material.textfield.TextInputLayout;
@@ -66,8 +68,9 @@ public class AddVacationActivity extends AppCompatActivity {
             Log.d("AddVacationActivity", "End Date: " + endDate);
 
             VacationController.createVacation(destination, startDate, endDate);
-
+            Toast.makeText(this, "Vacation added successfully", Toast.LENGTH_SHORT).show();
             finish();
+
         }
     }
 
