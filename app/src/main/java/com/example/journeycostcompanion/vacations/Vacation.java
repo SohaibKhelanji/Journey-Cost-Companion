@@ -64,6 +64,8 @@ public class Vacation {
     public void addExpense(String name, String category, double cost) {
         Expense expense = new Expense(name, category, cost);
         expenses.add(expense);
+        System.out.println("Expense added");
+
     }
 
     public void removeExpense(Expense expense) {
@@ -71,12 +73,12 @@ public class Vacation {
     }
 
     @Exclude
-    public double getTotalCost() {
+    public String getTotalCost() {
         double totalCost = 0;
         for (Expense expense : getExpenses()) {
             totalCost += expense.getCost();
         }
-        return totalCost;
+        return String.format("%.2f", totalCost);
     }
 
 }

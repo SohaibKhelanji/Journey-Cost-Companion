@@ -54,7 +54,10 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         public void bind(Expense expense) {
             nameTextView.setText(expense.getName());
             categoryTextView.setText(expense.getCategory());
-            costTextView.setText("€" + expense.getCost());
+            double cost = expense.getCost();
+            String costText = cost % 1 == 0 ? String.valueOf((int) cost) : String.valueOf(cost);
+            costTextView.setText("€" + costText);
         }
     }
+
 }

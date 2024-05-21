@@ -54,6 +54,7 @@ public class VacationAdapter extends RecyclerView.Adapter<VacationViewHolder> {
 
         Intent intent = new Intent(v.getContext(), VacationExpensesActivity.class);
         intent.putExtra("id", vacation.getId());
+
         v.getContext().startActivity(intent);
     }
 

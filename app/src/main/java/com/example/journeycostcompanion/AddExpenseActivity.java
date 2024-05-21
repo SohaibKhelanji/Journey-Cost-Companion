@@ -7,6 +7,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.journeycostcompanion.vacations.Vacation;
+import com.example.journeycostcompanion.vacations.VacationController;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -26,7 +28,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(v -> finish());
 
         Button addExpenseButton = findViewById(R.id.addExpenseButton);
-        addExpenseButton.setOnClickListener(v -> addExpense());
+        addExpenseButton.setOnClickListener(v -> createExpense());
 
         MaterialCardView accommodationCard = findViewById(R.id.accommodationCardView);
         MaterialCardView foodCard = findViewById(R.id.foodCardView);
@@ -58,12 +60,24 @@ public class AddExpenseActivity extends AppCompatActivity {
         this.selectedCategory = categoryTextView.getText().toString();
     }
 
-    private void addExpense() {
+    private void createExpense() {
         TextInputLayout expenseNameTextInputLayout = findViewById(R.id.nameTextInputLayout);
         TextInputLayout expenseCostTextInputLayout = findViewById(R.id.costTextInputLayout);
 
-        System.out.println("Expense Name: " + Objects.requireNonNull(expenseNameTextInputLayout.getEditText()).getText().toString());
-        System.out.println("Expense Cost: " + Objects.requireNonNull(expenseCostTextInputLayout.getEditText()).getText().toString());
+        String expenseName = Objects.requireNonNull(expenseNameTextInputLayout.getEditText()).getText().toString();
+        String expenseCostString = Objects.requireNonNull(expenseCostTextInputLayout.getEditText()).getText().toString();
+        expenseCostString = expenseCostString.replace(',', '.'); // Replace commas with dots
+        double expenseCost = Double.parseDouble(expenseCostString);
+        String vacationId = getIntent().getStringExtra("id");
+
+        System.out.println("Vacation ID: " + vacationId);
+        System.out.println("Expense Name: " + expenseName);
+        System.out.println("Expense Cost: " + expenseCost);
         System.out.println("Category: " + selectedCategory);
+
+        Vacation vacation = VacationController.getVacationById(vacationId);
+        System.out.println("Vacation: " + vacation.getDestination());
+        vacation.addExpense(expenseName, selectedCategory, expenseCost);
+        finish();
     }
 }
