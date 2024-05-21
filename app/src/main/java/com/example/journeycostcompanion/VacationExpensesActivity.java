@@ -50,7 +50,7 @@ public class VacationExpensesActivity extends AppCompatActivity {
 
     private void updateTotalCost(Vacation vacation) {
         double totalCost = vacation.getTotalCost();
-        totalCostTextView.setText("\uD83D\uDCB0Total: €" + totalCost);
+        totalCostTextView.setText("Total expenses: \n\uD83D\uDCB0€" + totalCost);
     }
 
     private void addExpense() {

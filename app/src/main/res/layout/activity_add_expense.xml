@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@id/titleTextView">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameEditText"
+            android:id="@+id/expenseNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/costEditText"
+            android:id="@+id/expenseCostEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
