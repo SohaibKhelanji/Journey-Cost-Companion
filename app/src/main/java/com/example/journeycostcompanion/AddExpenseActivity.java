@@ -66,7 +66,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         String expenseName = Objects.requireNonNull(expenseNameTextInputLayout.getEditText()).getText().toString();
         String expenseCostString = Objects.requireNonNull(expenseCostTextInputLayout.getEditText()).getText().toString();
-        expenseCostString = expenseCostString.replace(',', '.'); // Replace commas with dots
+        expenseCostString = expenseCostString.replace(',', '.');
         double expenseCost = Double.parseDouble(expenseCostString);
         String vacationId = getIntent().getStringExtra("id");
 
@@ -76,8 +76,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         System.out.println("Category: " + selectedCategory);
 
         Vacation vacation = VacationController.getVacationById(vacationId);
-        System.out.println("Vacation: " + vacation.getDestination());
-        vacation.addExpense(expenseName, selectedCategory, expenseCost);
+        VacationController.addExpenseToVacation(vacation, expenseName, selectedCategory, expenseCost);
         finish();
     }
 }

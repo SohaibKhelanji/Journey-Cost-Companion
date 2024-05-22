@@ -1,12 +1,12 @@
 package com.example.journeycostcompanion.vacations;
 
-
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
+import com.example.journeycostcompanion.expenses.Expense;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -75,10 +75,11 @@ public class VacationController extends Vacation {
                     // Get the key of the vacation from the database
                     String id = vacationSnapshot.getKey();
 
-
                     Vacation vacation = new Vacation(destination, startDate, endDate);
                     vacation.setId(id);
 
+                    // Load expenses for this vacation
+                    loadExpenses(vacation);
 
                     vacations.add(vacation);
                 }
@@ -88,6 +89,33 @@ public class VacationController extends Vacation {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("VacationController", "Failed to read value.", databaseError.toException());
+            }
+        });
+    }
+
+    public static void addExpenseToVacation(Vacation vacation, String name, String category, double cost) {
+        Expense expense = new Expense(name, category, cost);
+        vacation.addExpense(name, category, cost);
+        storeExpense(vacation.getId(), expense);
+    }
+
+    private static void storeExpense(String vacationId, Expense expense) {
+        database.child("vacations").child(vacationId).child("expenses").push().setValue(expense);
+    }
+
+    private static void loadExpenses(Vacation vacation) {
+        database.child("vacations").child(vacation.getId()).child("expenses").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot expenseSnapshot : dataSnapshot.getChildren()) {
+                    Expense expense = expenseSnapshot.getValue(Expense.class);
+                    vacation.getExpenses().add(expense);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.err.println("Error getting expenses: " + databaseError.getMessage());
             }
         });
     }

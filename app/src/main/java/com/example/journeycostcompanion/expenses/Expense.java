@@ -5,17 +5,19 @@ import java.util.UUID;
 
 public class Expense {
 
-    private final UUID id;
+    private String id;
     private String name;
     private String category;
     private double cost;
 
     public Expense(String name, String category, double cost) {
-        this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
         setName(name);
         setCategory(category);
         setCost(cost);
     }
+
+    public Expense() {}
 
     public String getName() {
         return name;
@@ -27,8 +29,12 @@ public class Expense {
         return cost;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {
