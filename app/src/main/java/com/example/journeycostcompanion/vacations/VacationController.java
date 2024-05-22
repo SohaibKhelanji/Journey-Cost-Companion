@@ -28,7 +28,7 @@ public class VacationController extends Vacation {
     }
 
     public static void createVacation(String destination, String startDate, String endDate) {
-        Vacation vacation = new Vacation(destination, startDate, endDate);
+        Vacation vacation = new VacationExpenseFactory().createVacation(destination, startDate, endDate);
         addVacation(vacation);
     }
 
@@ -75,7 +75,7 @@ public class VacationController extends Vacation {
                     // Get the key of the vacation from the database
                     String id = vacationSnapshot.getKey();
 
-                    Vacation vacation = new Vacation(destination, startDate, endDate);
+                    Vacation vacation = new VacationExpenseFactory().createVacation(destination, startDate, endDate);
                     vacation.setId(id);
 
                     // Load expenses for this vacation
@@ -94,7 +94,7 @@ public class VacationController extends Vacation {
     }
 
     public static void addExpenseToVacation(Vacation vacation, String name, String category, double cost) {
-        Expense expense = new Expense(name, category, cost);
+        Expense expense = new VacationExpenseFactory().createExpense(name, category, cost);
         vacation.addExpense(name, category, cost);
         storeExpense(vacation.getId(), expense);
     }

@@ -62,7 +62,7 @@ public class Vacation {
     }
 
     public void addExpense(String name, String category, double cost) {
-        Expense expense = new Expense(name, category, cost);
+        Expense expense = new VacationExpenseFactory().createExpense(name, category, cost);
         expenses.add(expense);
         System.out.println("Expense added");
 
