@@ -6,12 +6,17 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
+import com.example.journeycostcompanion.expenses.AccommodationExpense;
+import com.example.journeycostcompanion.expenses.ActivitiesExpense;
 import com.example.journeycostcompanion.expenses.Expense;
+import com.example.journeycostcompanion.expenses.FoodExpense;
+import com.example.journeycostcompanion.expenses.TransportExpense;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 
 public class VacationController extends Vacation {
 
@@ -93,9 +98,8 @@ public class VacationController extends Vacation {
         });
     }
 
-    public static void addExpenseToVacation(Vacation vacation, String name, String category, double cost) {
-        Expense expense = new VacationExpenseFactory().createExpense(name, category, cost);
-        vacation.addExpense(name, category, cost);
+    public static void addExpenseToVacation(Vacation vacation, Expense expense) {
+        vacation.addExpense(expense);
         storeExpense(vacation.getId(), expense);
     }
 
@@ -108,7 +112,29 @@ public class VacationController extends Vacation {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot expenseSnapshot : dataSnapshot.getChildren()) {
-                    Expense expense = expenseSnapshot.getValue(Expense.class);
+                    String type = expenseSnapshot.child("type").getValue(String.class);
+                    if (type == null) {
+                        System.err.println("Error: Expense type is null");
+                        continue;
+                    }
+                    Expense expense;
+                    switch (type) {
+                        case "Food 🍛":
+                            expense = expenseSnapshot.getValue(FoodExpense.class);
+                            break;
+                        case "Transport \uD83D\uDE8E":
+                            expense = expenseSnapshot.getValue(TransportExpense.class);
+                            break;
+                        case "Accommodation \uD83D\uDECF️":
+                            expense = expenseSnapshot.getValue(AccommodationExpense.class);
+                            break;
+                        case "Activities \uD83C\uDFA5":
+                            expense = expenseSnapshot.getValue(ActivitiesExpense.class);
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Invalid expense type: " + type);
+                    }
+
                     vacation.getExpenses().add(expense);
                 }
             }

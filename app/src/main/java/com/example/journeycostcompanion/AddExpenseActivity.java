@@ -7,8 +7,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+
+import com.example.journeycostcompanion.expenses.Expense;
 import com.example.journeycostcompanion.vacations.Vacation;
 import com.example.journeycostcompanion.vacations.VacationController;
+import com.example.journeycostcompanion.vacations.VacationExpenseFactory;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -75,8 +78,11 @@ public class AddExpenseActivity extends AppCompatActivity {
         System.out.println("Expense Cost: " + expenseCost);
         System.out.println("Category: " + selectedCategory);
 
+        Expense expense = new VacationExpenseFactory().createExpense(expenseName, selectedCategory, expenseCost);
+        expense.setType(selectedCategory);
+
         Vacation vacation = VacationController.getVacationById(vacationId);
-        VacationController.addExpenseToVacation(vacation, expenseName, selectedCategory, expenseCost);
+        VacationController.addExpenseToVacation(vacation, expense);
         finish();
     }
 }
