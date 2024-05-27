@@ -8,5 +8,6 @@ public interface VacationInterface {
     List<Expense> getExpenses();
     void addExpense(Expense expense);
     void removeExpense(Expense expense);
+    void updateExpense(Expense expense);
     String getTotalCost();
 }

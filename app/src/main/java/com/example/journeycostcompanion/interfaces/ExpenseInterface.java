@@ -4,9 +4,7 @@ public interface ExpenseInterface {
         String getCategory();
         double getCost();
         String getName();
-        void setCost(double cost);
-        void setName(String name);
+        String getId();
         void setType(String type);
-        String getType();
     }
 

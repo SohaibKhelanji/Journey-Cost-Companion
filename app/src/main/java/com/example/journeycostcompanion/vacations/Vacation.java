@@ -70,6 +70,9 @@ public class Vacation implements VacationInterface {
         expenses.remove(expense);
     }
 
+    public void updateExpense(Expense expense) {
+    }
+
     @Exclude
     public String getTotalCost() {
         double totalCost = 0;

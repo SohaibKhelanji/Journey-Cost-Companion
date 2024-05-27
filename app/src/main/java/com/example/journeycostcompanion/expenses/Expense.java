@@ -46,10 +46,6 @@ public abstract class Expense implements ExpenseInterface {
         this.cost = cost;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public void setType(String type) {
         this.type = type;
     }
