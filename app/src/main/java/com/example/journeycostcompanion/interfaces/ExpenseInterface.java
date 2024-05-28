@@ -5,6 +5,7 @@ public interface ExpenseInterface {
         double getCost();
         String getName();
         String getId();
+        String getType();
         void setType(String type);
     }
 

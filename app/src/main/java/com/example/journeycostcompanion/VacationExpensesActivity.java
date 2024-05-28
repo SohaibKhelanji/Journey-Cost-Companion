@@ -8,11 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.journeycostcompanion.expenses.Expense;
 import com.example.journeycostcompanion.expenses.ExpenseAdapter;
 import com.example.journeycostcompanion.vacations.Vacation;
 import com.example.journeycostcompanion.vacations.VacationController;
-import java.util.List;
+
 
 
 public class VacationExpensesActivity extends AppCompatActivity {
@@ -53,15 +52,21 @@ public class VacationExpensesActivity extends AppCompatActivity {
         totalCostTextView = findViewById(R.id.totalCostText);
         String destination = vacation.getDestination();
         vacationTitleTextView.setText(destination);
-        updateTotalCost(vacation);
         ExpenseAdapter expenseAdapter = new ExpenseAdapter(vacation.getExpenses());
         RecyclerView expensesRecyclerView = findViewById(R.id.expensesRecyclerView);
         expensesRecyclerView.setAdapter(expenseAdapter);
+        updateTotalCost(vacation);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        updateUI();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         updateUI();
     }
 }

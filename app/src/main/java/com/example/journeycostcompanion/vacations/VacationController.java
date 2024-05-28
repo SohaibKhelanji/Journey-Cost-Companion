@@ -111,38 +111,48 @@ public class VacationController extends Vacation {
         database.child("vacations").child(vacation.getId()).child("expenses").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot expenseSnapshot : dataSnapshot.getChildren()) {
-                    String type = expenseSnapshot.child("type").getValue(String.class);
-                    if (type == null) {
-                        System.err.println("Error: Expense type is null");
-                        continue;
-                    }
-                    Expense expense;
-                    switch (type) {
-                        case "Food 🍛":
-                            expense = expenseSnapshot.getValue(FoodExpense.class);
-                            break;
-                        case "Transport \uD83D\uDE8E":
-                            expense = expenseSnapshot.getValue(TransportExpense.class);
-                            break;
-                        case "Accommodation \uD83D\uDECF️":
-                            expense = expenseSnapshot.getValue(AccommodationExpense.class);
-                            break;
-                        case "Activities \uD83C\uDFA5":
-                            expense = expenseSnapshot.getValue(ActivitiesExpense.class);
-                            break;
-                        default:
-                            throw new IllegalArgumentException("Invalid expense type: " + type);
-                    }
-
-                    vacation.getExpenses().add(expense);
-                }
+                handleDataChange(dataSnapshot, vacation);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.err.println("Error getting expenses: " + databaseError.getMessage());
+                handleCancellation(databaseError);
             }
         });
+    }
+
+    private static void handleDataChange(@NonNull DataSnapshot dataSnapshot, Vacation vacation) {
+        for (DataSnapshot expenseSnapshot : dataSnapshot.getChildren()) {
+            String type = getExpenseType(expenseSnapshot);
+            if (type == null) {
+                System.err.println("Error: Expense type is null");
+                continue;
+            }
+            Expense expense = createExpense(expenseSnapshot, type);
+            vacation.getExpenses().add(expense);
+        }
+    }
+
+    private static String getExpenseType(DataSnapshot expenseSnapshot) {
+        return expenseSnapshot.child("type").getValue(String.class);
+    }
+
+    private static Expense createExpense(DataSnapshot expenseSnapshot, String type) {
+        switch (type) {
+            case "Food 🍛":
+                return expenseSnapshot.getValue(FoodExpense.class);
+            case "Transport \uD83D\uDE8E":
+                return expenseSnapshot.getValue(TransportExpense.class);
+            case "Accommodation \uD83D\uDECF️":
+                return expenseSnapshot.getValue(AccommodationExpense.class);
+            case "Activities \uD83C\uDFA5":
+                return expenseSnapshot.getValue(ActivitiesExpense.class);
+            default:
+                throw new IllegalArgumentException("Invalid expense type: " + type);
+        }
+    }
+
+    private static void handleCancellation(@NonNull DatabaseError databaseError) {
+        System.err.println("Error getting expenses: " + databaseError.getMessage());
     }
 }

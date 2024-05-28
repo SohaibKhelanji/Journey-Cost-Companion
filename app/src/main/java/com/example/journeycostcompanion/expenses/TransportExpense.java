@@ -10,6 +10,7 @@ public class TransportExpense extends Expense implements ExpenseInterface {
 
     public TransportExpense() {
         super();
+
     }
 
     @Override

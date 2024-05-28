@@ -26,6 +26,10 @@ public abstract class Expense implements ExpenseInterface {
 
     public abstract String getCategory();
 
+    public String getType() {
+        return type;
+    }
+
     public double getCost() {
         return cost;
     }

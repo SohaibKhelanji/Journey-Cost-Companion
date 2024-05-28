@@ -78,11 +78,13 @@ public class AddExpenseActivity extends AppCompatActivity {
         System.out.println("Expense Cost: " + expenseCost);
         System.out.println("Category: " + selectedCategory);
 
+
         Expense expense = new VacationExpenseFactory().createExpense(expenseName, selectedCategory, expenseCost);
         expense.setType(selectedCategory);
 
         Vacation vacation = VacationController.getVacationById(vacationId);
         VacationController.addExpenseToVacation(vacation, expense);
+
         finish();
     }
 }
