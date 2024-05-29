@@ -20,7 +20,7 @@
         android:id="@+id/editVacationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="760dp"
+        android:layout_marginTop="740dp"
         android:clickable="true"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintEnd_toEndOf="@+id/vacationRecyclerView"

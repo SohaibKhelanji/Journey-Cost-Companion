@@ -16,6 +16,7 @@ import com.example.journeycostcompanion.vacations.VacationController;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView vacationRecyclerView;
+    final int numberOfColumns = 2;
 
 
     @Override
@@ -26,18 +27,12 @@ public class MainActivity extends AppCompatActivity {
         vacationRecyclerView = findViewById(R.id.vacationRecyclerView);
         FloatingActionButton addVacationButton = findViewById(R.id.editVacationButton);
 
-        // Initialize VacationController
         new VacationController("destination", "startDate", "endDate");
-
-        final int numberOfColumns = 2;
         vacationRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
         updateRecyclerView();
 
-        addVacationButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AddVacationActivity.class);
-            startActivity(intent);
-        });
+        addVacationButton.setOnClickListener(v -> startAddVacationActivity());
     }
 
     @Override
@@ -50,5 +45,10 @@ public class MainActivity extends AppCompatActivity {
         VacationAdapter vacationAdapter = new VacationAdapter();
         vacationRecyclerView.setAdapter(vacationAdapter);
         VacationController.fetchVacations(vacationAdapter);
+    }
+
+    private void startAddVacationActivity() {
+        Intent intent = new Intent(MainActivity.this, AddVacationActivity.class);
+        startActivity(intent);
     }
 }
