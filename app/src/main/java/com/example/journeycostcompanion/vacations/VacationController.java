@@ -66,6 +66,20 @@ public class VacationController extends Vacation {
         return null;
     }
 
+    public static Vacation getVacationFromExpense(Expense expense) {
+        for (Vacation vacation : vacations) {
+            if (vacation.getExpenses().contains(expense)) {
+                return vacation;
+            }
+        }
+        return null;
+    }
+
+    public static void removeExpenseFromVacation(Vacation vacation, Expense expense) {
+        vacation.removeExpense(expense);
+        database.child("vacations").child(vacation.getId()).child("expenses").setValue(vacation.getExpenses());
+    }
+
     public static void fetchVacations(VacationAdapter adapter) {
         database.child("vacations").addValueEventListener(new ValueEventListener() {
             @Override

@@ -1,18 +1,20 @@
 package com.example.journeycostcompanion.expenses;
 
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.journeycostcompanion.R;
+import com.example.journeycostcompanion.vacations.Vacation;
+import com.example.journeycostcompanion.vacations.VacationController;
 
 import java.util.List;
 
-public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder> {
+public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseViewHolder> {
 
     private List<Expense> expenses;
 
@@ -31,6 +33,13 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
     public void onBindViewHolder(@NonNull ExpenseViewHolder holder, int position) {
         Expense expense = expenses.get(position);
         holder.bind(expense);
+
+        holder.itemView.setOnLongClickListener(v -> {
+            showActionDialog(v, expense);
+            return true;
+        });
+
+
     }
 
     @Override
@@ -38,26 +47,31 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         return expenses.size();
     }
 
-    static class ExpenseViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView nameTextView;
-        private TextView categoryTextView;
-        private TextView costTextView;
-
-        public ExpenseViewHolder(@NonNull View itemView) {
-            super(itemView);
-            nameTextView = itemView.findViewById(R.id.expenseNameTextView);
-            categoryTextView = itemView.findViewById(R.id.expenseCategoryTextView);
-            costTextView = itemView.findViewById(R.id.expenseCostTextView);
-        }
-
-        public void bind(Expense expense) {
-            nameTextView.setText(expense.getName());
-            categoryTextView.setText(expense.getCategory());
-            double cost = expense.getCost();
-            String costText = cost % 1 == 0 ? String.valueOf((int) cost) : String.valueOf(cost);
-            costTextView.setText("€" + costText);
-        }
+    private void showActionDialog(View v, Expense expense) {
+        animateView(v);
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Delete expense");
+        builder.setMessage("Are you sure you want to delete this expense?");
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            Vacation vacation = VacationController.getVacationFromExpense(expense);
+            VacationController.removeExpenseFromVacation(vacation, expense);
+            notifyDataSetChanged();
+        });
+        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 
+
+    private void animateView(View v) {
+        v.animate()
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .setDuration(100)
+                .withEndAction(() -> v.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(100)
+                        .start())
+                .start();
+    }
 }
