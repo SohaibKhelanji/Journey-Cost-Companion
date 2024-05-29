@@ -12,19 +12,17 @@ public abstract class Expense implements ExpenseInterface {
     private double cost;
     protected String type;
 
-    public Expense(String name, double cost) {
+    protected Expense(String name, double cost) {
         this.id = UUID.randomUUID().toString();
         setName(name);
         setCost(cost);
     }
 
-    public Expense() {}
+    protected Expense() {}
 
     public String getName() {
         return name;
     }
-
-    public abstract String getCategory();
 
     public String getType() {
         return type;

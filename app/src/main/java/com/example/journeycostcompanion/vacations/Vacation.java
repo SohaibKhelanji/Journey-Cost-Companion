@@ -71,6 +71,7 @@ public class Vacation implements VacationInterface {
     }
 
     public void updateExpense(Expense expense) {
+        //This method will be implemented in a future update.
     }
 
     @Exclude

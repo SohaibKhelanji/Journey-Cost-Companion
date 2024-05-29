@@ -28,7 +28,7 @@ public class AddVacationActivity extends AppCompatActivity {
     }
 
     public void addVacation(View view) {
-        Log.d("AddVacationActivity", "Add Vacation Button Clicked");
+
         TextInputLayout destinationTextInputLayout = findViewById(R.id.nameTextInputLayout);
         TextInputLayout startDateTextInputLayout = findViewById(R.id.priceTextInputLayout);
         TextInputLayout endDateTextInputLayout = findViewById(R.id.endDateTextInputLayout);
@@ -58,6 +58,8 @@ public class AddVacationActivity extends AppCompatActivity {
                     break;
                 case 3:
                     endDateTextInputLayout.setError("Invalid date or format. (Required format: dd/mm/yyyy)");
+                    break;
+                default:
                     break;
             }
         }

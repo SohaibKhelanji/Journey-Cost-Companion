@@ -21,11 +21,12 @@ import com.google.firebase.database.ValueEventListener;
 public class VacationController extends Vacation {
 
     static ArrayList<Vacation> vacations = new ArrayList<>();
-    private static DatabaseReference database;
+    private static final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    private static final String vacationPathString = "vacations";
+    private static final String expensePathString = "expenses";
 
     public VacationController(String destination, String startDate, String endDate) {
         super(destination, startDate, endDate);
-        database = FirebaseDatabase.getInstance().getReference();
     }
 
     public static ArrayList<Vacation> getVacations() {
@@ -38,23 +39,22 @@ public class VacationController extends Vacation {
     }
 
     public static void editVacation(Vacation vacation, String newDestination, String newStartDate, String newEndDate) {
-        Log.e("VacationController", "Vacation button clicked" + vacation.getId());
 
         vacation.setDestination(newDestination);
         vacation.setStartDate(newStartDate);
         vacation.setEndDate(newEndDate);
         Log.d ("VacationController", "Vacation edited" + vacation.getId());
-        database.child("vacations").child(vacation.getId()).setValue(vacation);
+        database.child(vacationPathString).child(vacation.getId()).setValue(vacation);
     }
 
     protected static void addVacation(Vacation vacation) {
         vacations.add(vacation);
-        database.child("vacations").child(vacation.getId()).setValue(vacation);
+        database.child(vacationPathString).child(vacation.getId()).setValue(vacation);
     }
 
     public static void removeVacation(Vacation vacation) {
         vacations.remove(vacation);
-        database.child("vacations").setValue(vacations);
+        database.child(vacationPathString).setValue(vacations);
     }
 
     public static Vacation getVacationById(String id) {
@@ -77,11 +77,11 @@ public class VacationController extends Vacation {
 
     public static void removeExpenseFromVacation(Vacation vacation, Expense expense) {
         vacation.removeExpense(expense);
-        database.child("vacations").child(vacation.getId()).child("expenses").setValue(vacation.getExpenses());
+        database.child(vacationPathString).child(vacation.getId()).child(expensePathString).setValue(vacation.getExpenses());
     }
 
     public static void fetchVacations(VacationAdapter adapter) {
-        database.child("vacations").addValueEventListener(new ValueEventListener() {
+        database.child(vacationPathString).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 vacations.clear();
@@ -118,11 +118,11 @@ public class VacationController extends Vacation {
     }
 
     private static void storeExpense(String vacationId, Expense expense) {
-        database.child("vacations").child(vacationId).child("expenses").push().setValue(expense);
+        database.child(vacationPathString).child(vacationId).child(expensePathString).push().setValue(expense);
     }
 
     private static void loadExpenses(Vacation vacation) {
-        database.child("vacations").child(vacation.getId()).child("expenses").addValueEventListener(new ValueEventListener() {
+        database.child(vacationPathString).child(vacation.getId()).child(expensePathString).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 handleDataChange(dataSnapshot, vacation);
