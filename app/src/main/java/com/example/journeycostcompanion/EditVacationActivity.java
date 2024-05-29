@@ -71,6 +71,8 @@ public class EditVacationActivity extends AppCompatActivity {
                 case 3:
                     endDateTextInputLayout.setError("Invalid date format. Required: dd/mm/yyyy");
                     break;
+                default:
+                    break;
             }
         }
 

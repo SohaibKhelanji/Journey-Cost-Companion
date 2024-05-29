@@ -1,29 +1,32 @@
 package com.example.journeycostcompanion.expenses;
 
 
+import com.example.journeycostcompanion.interfaces.ExpenseInterface;
+
 import java.util.UUID;
 
-public class Expense {
+public abstract class Expense implements ExpenseInterface {
 
     private String id;
     private String name;
-    private String category;
     private double cost;
+    protected String type;
 
-    public Expense(String name, String category, double cost) {
+    protected Expense(String name, double cost) {
         this.id = UUID.randomUUID().toString();
         setName(name);
-        setCategory(category);
         setCost(cost);
     }
 
-    public Expense() {}
+    protected Expense() {}
 
     public String getName() {
         return name;
     }
 
-    public String getCategory() { return category;}
+    public String getType() {
+        return type;
+    }
 
     public double getCost() {
         return cost;
@@ -41,10 +44,12 @@ public class Expense {
         this.name = name;
     }
 
-    public void setCategory(String category) { this.category = category; }
-
     public void setCost(double cost) {
         this.cost = cost;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

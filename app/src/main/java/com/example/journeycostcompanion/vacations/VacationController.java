@@ -6,21 +6,27 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
+import com.example.journeycostcompanion.expenses.AccommodationExpense;
+import com.example.journeycostcompanion.expenses.ActivitiesExpense;
 import com.example.journeycostcompanion.expenses.Expense;
+import com.example.journeycostcompanion.expenses.FoodExpense;
+import com.example.journeycostcompanion.expenses.TransportExpense;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class VacationController extends Vacation {
 
     static ArrayList<Vacation> vacations = new ArrayList<>();
-    private static DatabaseReference database;
+    private static final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    private static final String vacationPathString = "vacations";
+    private static final String expensePathString = "expenses";
 
     public VacationController(String destination, String startDate, String endDate) {
         super(destination, startDate, endDate);
-        database = FirebaseDatabase.getInstance().getReference();
     }
 
     public static ArrayList<Vacation> getVacations() {
@@ -33,23 +39,22 @@ public class VacationController extends Vacation {
     }
 
     public static void editVacation(Vacation vacation, String newDestination, String newStartDate, String newEndDate) {
-        Log.e("VacationController", "Vacation button clicked" + vacation.getId());
 
         vacation.setDestination(newDestination);
         vacation.setStartDate(newStartDate);
         vacation.setEndDate(newEndDate);
         Log.d ("VacationController", "Vacation edited" + vacation.getId());
-        database.child("vacations").child(vacation.getId()).setValue(vacation);
+        database.child(vacationPathString).child(vacation.getId()).setValue(vacation);
     }
 
     protected static void addVacation(Vacation vacation) {
         vacations.add(vacation);
-        database.child("vacations").child(vacation.getId()).setValue(vacation);
+        database.child(vacationPathString).child(vacation.getId()).setValue(vacation);
     }
 
     public static void removeVacation(Vacation vacation) {
         vacations.remove(vacation);
-        database.child("vacations").setValue(vacations);
+        database.child(vacationPathString).setValue(vacations);
     }
 
     public static Vacation getVacationById(String id) {
@@ -61,8 +66,22 @@ public class VacationController extends Vacation {
         return null;
     }
 
+    public static Vacation getVacationFromExpense(Expense expense) {
+        for (Vacation vacation : vacations) {
+            if (vacation.getExpenses().contains(expense)) {
+                return vacation;
+            }
+        }
+        return null;
+    }
+
+    public static void removeExpenseFromVacation(Vacation vacation, Expense expense) {
+        vacation.removeExpense(expense);
+        database.child(vacationPathString).child(vacation.getId()).child(expensePathString).setValue(vacation.getExpenses());
+    }
+
     public static void fetchVacations(VacationAdapter adapter) {
-        database.child("vacations").addValueEventListener(new ValueEventListener() {
+        database.child(vacationPathString).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 vacations.clear();
@@ -93,30 +112,61 @@ public class VacationController extends Vacation {
         });
     }
 
-    public static void addExpenseToVacation(Vacation vacation, String name, String category, double cost) {
-        Expense expense = new VacationExpenseFactory().createExpense(name, category, cost);
-        vacation.addExpense(name, category, cost);
+    public static void addExpenseToVacation(Vacation vacation, Expense expense) {
+        vacation.addExpense(expense);
         storeExpense(vacation.getId(), expense);
     }
 
     private static void storeExpense(String vacationId, Expense expense) {
-        database.child("vacations").child(vacationId).child("expenses").push().setValue(expense);
+        database.child(vacationPathString).child(vacationId).child(expensePathString).push().setValue(expense);
     }
 
     private static void loadExpenses(Vacation vacation) {
-        database.child("vacations").child(vacation.getId()).child("expenses").addValueEventListener(new ValueEventListener() {
+        database.child(vacationPathString).child(vacation.getId()).child(expensePathString).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot expenseSnapshot : dataSnapshot.getChildren()) {
-                    Expense expense = expenseSnapshot.getValue(Expense.class);
-                    vacation.getExpenses().add(expense);
-                }
+                handleDataChange(dataSnapshot, vacation);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                System.err.println("Error getting expenses: " + databaseError.getMessage());
+                handleCancellation(databaseError);
             }
         });
+    }
+
+    private static void handleDataChange(@NonNull DataSnapshot dataSnapshot, Vacation vacation) {
+        for (DataSnapshot expenseSnapshot : dataSnapshot.getChildren()) {
+            String type = getExpenseType(expenseSnapshot);
+            if (type == null) {
+                System.err.println("Error: Expense type is null");
+                continue;
+            }
+            Expense expense = createExpense(expenseSnapshot, type);
+            vacation.getExpenses().add(expense);
+        }
+    }
+
+    private static String getExpenseType(DataSnapshot expenseSnapshot) {
+        return expenseSnapshot.child("type").getValue(String.class);
+    }
+
+    private static Expense createExpense(DataSnapshot expenseSnapshot, String type) {
+        switch (type) {
+            case "Food 🍛":
+                return expenseSnapshot.getValue(FoodExpense.class);
+            case "Transport \uD83D\uDE8E":
+                return expenseSnapshot.getValue(TransportExpense.class);
+            case "Accommodation \uD83D\uDECF️":
+                return expenseSnapshot.getValue(AccommodationExpense.class);
+            case "Activities \uD83C\uDFA5":
+                return expenseSnapshot.getValue(ActivitiesExpense.class);
+            default:
+                throw new IllegalArgumentException("Invalid expense type: " + type);
+        }
+    }
+
+    private static void handleCancellation(@NonNull DatabaseError databaseError) {
+        System.err.println("Error getting expenses: " + databaseError.getMessage());
     }
 }

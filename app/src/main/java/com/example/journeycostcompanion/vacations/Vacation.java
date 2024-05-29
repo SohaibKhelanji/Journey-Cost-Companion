@@ -1,13 +1,14 @@
 package com.example.journeycostcompanion.vacations;
 
 import com.example.journeycostcompanion.expenses.Expense;
+import com.example.journeycostcompanion.interfaces.VacationInterface;
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Vacation {
+public class Vacation implements VacationInterface {
 
     private String id;
     private String destination;
@@ -61,15 +62,16 @@ public class Vacation {
         return expenses;
     }
 
-    public void addExpense(String name, String category, double cost) {
-        Expense expense = new VacationExpenseFactory().createExpense(name, category, cost);
-        expenses.add(expense);
-        System.out.println("Expense added");
-
+    public void addExpense(Expense expense) {
+        this.expenses.add(expense);
     }
 
     public void removeExpense(Expense expense) {
         expenses.remove(expense);
+    }
+
+    public void updateExpense(Expense expense) {
+        //This method will be implemented in a future update.
     }
 
     @Exclude
