@@ -89,7 +89,7 @@ public class AddVacationActivity extends AppCompatActivity {
         return isValid;
     }
 
-    private List<Integer> isValidInput(String destination, String startDate, String endDate) {
+    public List<Integer> isValidInput(String destination, String startDate, String endDate) {
         List<Integer> validationCodes = new ArrayList<>();
 
         // Check if destination is not empty
